@@ -21,6 +21,6 @@ VERSION SUPPORT
 CREDENTIALS
       
         Hostname : localhost
-        Username : root
-        Password : root
+        Username : student
+        Password : student
         Database : db
