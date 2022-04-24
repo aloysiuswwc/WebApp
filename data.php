@@ -4,13 +4,13 @@
  * Website : www.agney.vishwasetu.com
  * Copyright © Agney Patel 2016
  -->
-<?php
+ <?php
 $link = mysqli_connect("localhost", "student", "student", "db");
 
 $firstname = $_POST['firstname'];
 $lastname = $_POST['lastname'];
 $email = $_POST['email'];
-$password = $_POST['password'];
+$password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 $age = $_POST['age'];
 $phone = $_POST['phone'];
 $gender = $_POST['gender'];

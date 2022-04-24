@@ -5,7 +5,7 @@
  * Copyright © Agney Patel 2016
  -->
 
-<?php
+ <?php
 session_start();
 $error = '';
 
@@ -21,18 +21,22 @@ if (isset($_POST['submit'])) {
 	    exit();
         }
         $email      = $_POST['email'];
-        $password   = $_POST['password'];
-        // $email      = stripslashes($email);
-        // $password   = stripslashes($password);
-        // $email      = mysqli_real_escape_string($connection, $_REQUEST['email']);
-        // $password   = mysqli_real_escape_string($connection, $_REQUEST['password']);
-        $sql        = "SELECT * from userdata where password='$password' AND email='$email'";
+        $input_pass = $_POST['password'];
+        $sql        = "SELECT * from userdata where email='$email'";
         $r_query    = mysqli_query($connection, $sql);
-        $rows       = mysqli_num_rows($r_query);
-        if ($rows == 1) {
-            $_SESSION['login_user'] = $email;
-	    
-            echo "<script>location='profile.php'</script>";
+        if (mysqli_num_rows($r_query) == 1) {
+	    while ($row = mysqli_fetch_object($r_query)) {
+	        $hashed_pass = $row->password;
+	    }
+            if (password_verify($input_pass, $hashed_pass)) {
+                $_SESSION['login_user'] = $email;
+	  
+                echo "<script>location='profile.php'</script>";
+	    }
+	    else {
+		$error = "Email or Password is invalid. Please try again.";
+	        echo $error;
+	    }
         }
         else {
             $error = "Email or Password is invalid. Please try again.";

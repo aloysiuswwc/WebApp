@@ -34,7 +34,7 @@ CREATE TABLE `userdata` (
   `firstname` varchar(20) NOT NULL,
   `lastname` varchar(20) NOT NULL,
   `email` varchar(25) NOT NULL,
-  `password` varchar(15) NOT NULL,
+  `password` varchar(255) NOT NULL,
   `age` varchar(2) NOT NULL,
   `phone` varchar(10) NOT NULL,
   `gender` varchar(6) NOT NULL,
@@ -47,10 +47,10 @@ CREATE TABLE `userdata` (
 --
 
 INSERT INTO `userdata` (`firstname`, `lastname`, `email`, `password`, `age`, `phone`, `gender`, `dob`, `comment`) VALUES
-('AMBER', 'MORTON', 'amber@email.com', 'amber123', '21', '3479942274', 'female', '1995-01-02', 'Nice'),
-('KELLY', 'DUNLAP', 'kelly@email.com', 'kelly123', '21', '2512029437', 'female', '1995-01-05', 'Good'),
-('KRISTINA', 'BLACKWELL', 'kristina@email.com', 'kristina123', '21', '6514936953', 'female', '1995-01-03', 'nice'),
-('MIKE', 'JOSEPH', 'mike@email.com', 'mike123', '21', '7694780831', 'male', '1995-01-04', 'Nice');
+('AMBER', 'MORTON', 'amber@email.com', '$2y$10$TPV18otSrdzArmLbtjM/ou2/IMwpjm9UIdjTzDB5XWrJApo8z.KdK', '21', '3479942274', 'female', '1995-01-02', 'Nice'),
+('KELLY', 'DUNLAP', 'kelly@email.com', '$2y$10$5sSASPcWotuK9DzlZad0aeOLoPDvVEn8uQR8xmGs2StG1ezdpJJ9e', '21', '2512029437', 'female', '1995-01-05', 'Good'),
+('KRISTINA', 'BLACKWELL', 'kristina@email.com', '$2y$10$M5z87RXbKXZ9vujA7Qgj9OnrzeS1BMkMFmpQcgRtiJnbYpNEURPLi', '21', '6514936953', 'female', '1995-01-03', 'nice'),
+('MIKE', 'JOSEPH', 'mike@email.com', '$2y$10$4YUWqE17SNpO0wMHkZuMdegE21OH9.4/kJBxQutN0M1CHerV94oeW', '21', '7694780831', 'male', '1995-01-04', 'Nice');
 
 --
 -- Indexes for dumped tables
@@ -60,7 +60,7 @@ INSERT INTO `userdata` (`firstname`, `lastname`, `email`, `password`, `age`, `ph
 -- Indexes for table `userdata`
 --
 ALTER TABLE `userdata`
-  ADD PRIMARY KEY (`firstname`);
+  ADD PRIMARY KEY (`email`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
