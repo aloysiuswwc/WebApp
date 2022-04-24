@@ -95,6 +95,7 @@
                                                   echo '<br /> Age: ' . $row['age'];
                                                   echo '<br /> Phone: ' . $row['phone'];
                                                   echo '<br /> Gender: ' . $row['gender'];
+                                                  echo '<br /> Comment: ' . $row['comment'];
                                               }
                                           }
                                           mysqli_close($link);
