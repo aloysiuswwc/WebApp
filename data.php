@@ -15,7 +15,7 @@ $age = $_POST['age'];
 $phone = $_POST['phone'];
 $gender = $_POST['gender'];
 $dob = $_POST['dob'];
-$comment = $_POST['comment'];
+$comment = htmlspecialchars($_POST['comment']);
 $sql = "INSERT INTO userdata (firstname,lastname,email, password, age,phone,gender,dob,comment) VALUES ('" . $firstname . "','" . $lastname . "','" . $email . "','" . $password . "','" . $age . "','" . $phone . "','" . $gender . "','" . $dob . "','" . $comment . "')";
 mysqli_query($link, $sql);
 mysqli_close($link);
