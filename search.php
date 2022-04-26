@@ -4,7 +4,7 @@
  * Website : www.agney.vishwasetu.com
  * Copyright © Agney Patel 2016
  -->
-<!DOCTYPE html>
+ <!DOCTYPE html>
 
 <head>
     <title>User Search</title>
@@ -84,21 +84,26 @@
                                         <span class="card-title">User Details</span>
                                         <br>
                                         <?php
-                                          $link = mysqli_connect("localhost", "student", "student", "db");
+                                          $conn = new mysqli("localhost", "student", "student", "db");
                                           if (!empty($_REQUEST['email'])) {
-                                              $email = mysqli_real_escape_string($link, $_REQUEST['email']);
-                                              $sql       = "SELECT * FROM userdata WHERE email='$email'";
-                                              $r_query   = mysqli_query($link, $sql);
-                                              while ($row = mysqli_fetch_array($r_query)) {
-                                                  echo 'First Name: ' . $row['firstname'];
-                                                  echo '<br /> Last Name: ' . $row['lastname'];
-                                                  echo '<br /> Age: ' . $row['age'];
-                                                  echo '<br /> Phone: ' . $row['phone'];
-                                                  echo '<br /> Gender: ' . $row['gender'];
-                                                  echo '<br /> Comment: ' . $row['comment'];
-                                              }
+                                              $email = mysqli_real_escape_string($conn, $_REQUEST['email']);
+					      $stmt = $conn->prepare("SELECT firstname, lastname, age, phone, gender, comment FROM userdata WHERE email=?");
+					      $stmt -> bind_param("s", $email);
+					      $stmt -> execute();
+					      $stmt -> store_result();
+					      $stmt -> bind_result($firstname, $lastname, $age, $phone, $gender, $comment);
+					      if ($stmt -> num_rows == 1) {
+					          while ($stmt->fetch()) {
+						      echo 'First Name: ' . $firstname;
+                                                      echo '<br /> Last Name: ' . $lastname;
+                                                      echo '<br /> Age: ' . $age;
+                                                      echo '<br /> Phone: ' . $phone;
+                                                      echo '<br /> Gender: ' . $gender;
+						      echo '<br /> Comment: ' . $comment;
+						  }
+					      }
                                           }
-                                          mysqli_close($link);
+                                          mysqli_close($conn);
                                         ?>
                                     </div>
                                 </div>

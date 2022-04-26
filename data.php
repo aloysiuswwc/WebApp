@@ -5,7 +5,7 @@
  * Copyright © Agney Patel 2016
  -->
  <?php
-$link = mysqli_connect("localhost", "student", "student", "db");
+$conn = new mysqli("localhost", "student", "student", "db");
 
 $firstname = $_POST['firstname'];
 $lastname = $_POST['lastname'];
@@ -16,9 +16,11 @@ $phone = $_POST['phone'];
 $gender = $_POST['gender'];
 $dob = $_POST['dob'];
 $comment = htmlspecialchars($_POST['comment']);
-$sql = "INSERT INTO userdata (firstname,lastname,email, password, age,phone,gender,dob,comment) VALUES ('" . $firstname . "','" . $lastname . "','" . $email . "','" . $password . "','" . $age . "','" . $phone . "','" . $gender . "','" . $dob . "','" . $comment . "')";
-mysqli_query($link, $sql);
-mysqli_close($link);
+$stmt = $conn->prepare("INSERT INTO userdata (firstname,lastname,email, password, age,phone,gender,dob,comment) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+$stmt -> bind_param("sssssssss", $firstname, $lastname, $email, $password, $age, $phone, $gender, $dob, $comment);
+$stmt -> execute();
+
+mysqli_close($conn);
 
 echo "<h2>Details added. Thanks !</h2>"
 

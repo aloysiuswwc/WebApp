@@ -5,7 +5,7 @@
  * Copyright © Agney Patel 2016
  -->
 
-<?php
+ <?php
 include('session.php');
 ?>
 
@@ -59,19 +59,24 @@ include('session.php');
                                         <span class="card-title">User Details | <a href="logout.php">Logout</a></span>
                                         <br>
                                         <?php
-                                          $link = mysqli_connect("localhost", "student", "student", "db");
+                                          $conn = new mysqli("localhost", "student", "student", "db");
                                           $email     = $_SESSION['login_user'];
-                                          $sql       = "SELECT * FROM userdata WHERE email='$email'";
-                                          $r_query   = mysqli_query($link, $sql);
-                                          while ($row = mysqli_fetch_array($r_query)) {
-                                              echo 'First Name: ' . $row['firstname'];
-                                              echo '<br /> Last Name: ' . $row['lastname'];
-                                              echo '<br /> Age: ' . $row['age'];
-                                              echo '<br /> Phone: ' . $row['phone'];
-                                              echo '<br /> Gender: ' . $row['gender'];
-                                          }
-                                          mysqli_close($link);
-                                        echo "This is your dashboard";
+					  $stmt = $conn->prepare("SELECT firstname, lastname, age, phone, gender FROM userdata WHERE email=?");
+					  $stmt -> bind_param("s", $email);
+					  $stmt -> execute();
+				 	  $stmt -> store_result();
+					  $stmt -> bind_result($firstname, $lastname, $age, $phone, $gender);
+					  if ($stmt -> num_rows == 1) {
+					      while ($stmt->fetch()) {
+                                                  echo 'First Name: ' . $firstname;
+                                                  echo '<br /> Last Name: ' . $lastname;
+                                                  echo '<br /> Age: ' . $age;
+                                                  echo '<br /> Phone: ' . $phone;
+                                                  echo '<br /> Gender: ' . $gender;
+                                              }
+					  }
+                                          mysqli_close($conn);
+                                        echo "<br /> This is your dashboard";
                                         ?>
                                     </div>
                                 </div>

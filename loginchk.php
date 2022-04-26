@@ -15,31 +15,29 @@ if (isset($_POST['submit'])) {
     }
     else
     {
-        $connection = mysqli_connect("localhost", "student", "student", "db");
-	if (mysqli_connect_errno()) {
-	    echo "Failed to connect to MySQL: " . mysqli_connect_error();
-	    exit();
-        }
+        $conn = new mysqli("localhost", "student", "student", "db");
         $email      = $_POST['email'];
         $input_pass = $_POST['password'];
-        $sql        = "SELECT * from userdata where email='$email'";
-        $r_query    = mysqli_query($connection, $sql);
-        if (mysqli_num_rows($r_query) == 1) {
-	    while ($row = mysqli_fetch_object($r_query)) {
-	        $hashed_pass = $row->password;
-	    }
-            if (password_verify($input_pass, $hashed_pass)) {
-                $_SESSION['login_user'] = $email;
+	$stmt       = $conn->prepare("SELECT password FROM userdata WHERE email= ?");
+	$stmt -> bind_param("s", $email);
+	$stmt -> execute();
+	$stmt -> store_result();
+	$stmt -> bind_result($hashed_pass);
+        if ($stmt -> num_rows == 1) {
+	    while ($stmt->fetch()) {
+	        if (password_verify($input_pass, $hashed_pass)) {
+                    $_SESSION['login_user'] = $email;
 	  
-                echo "<script>location='profile.php'</script>";
-	    }
-	    else {
-		$error = "Email or Password is invalid. Please try again.";
-	        echo $error;
+                    echo "<script>location='profile.php'</script>";
+	        }
+	        else {
+		    $error = "Email or password is invalid. Please try again.";
+	            echo $error;
+	        }
 	    }
         }
         else {
-            $error = "Email or Password is invalid. Please try again.";
+            $error = "Email or password is invalid. Please try again.";
 	    echo $error;
         }	
 
