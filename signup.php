@@ -4,6 +4,10 @@
  * Website : www.agney.vishwasetu.com
  * Copyright © Agney Patel 2016
  -->
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <head>
    <title>Home</title>
